@@ -2,7 +2,7 @@ name: Daily Activity
 
 on:
   schedule:
-    - cron: "0 6 * * *"
+    - cron: '0 6 * * *'
   workflow_dispatch:
 
 permissions:
@@ -13,13 +13,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Update file
         run: |
           echo "Updated: $(date)" > activity.txt
 
-      - name: Commit
+      - name: Commit changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -27,7 +28,7 @@ jobs:
           git add activity.txt
 
           if git diff --cached --quiet; then
-            echo "No changes"
+            echo "No changes to commit"
           else
             git commit -m "Daily activity"
             git push
